@@ -9,6 +9,8 @@ int counter = 0;
 void fractionalKnapsack(int n, int capacity, int weights[], int values[])
 {
     double valuePerWeight[MAX_ITEMS];
+    double totalValue = 0.0;
+    int currentWeight = 0;
 
     for (int i = 0; i < n; i++)
     {
@@ -16,40 +18,36 @@ void fractionalKnapsack(int n, int capacity, int weights[], int values[])
         valuePerWeight[i] = (values[i]) / weights[i];
     }
 
-    for (int i = 0; i < n - 1; i++)
-    {
-        for (int j = i + 1; j < n; j++)
-        {
-            counter++;
-            if (valuePerWeight[i] < valuePerWeight[j])
-            {
-                swap(valuePerWeight[i], valuePerWeight[j]);
-                swap(weights[i], weights[j]);
-                swap(values[i], values[j]);
-            }
-        }
-    }
 
-    double totalValue = 0.0;
-    int currentWeight = 0;
-
-    for (int i = 0; i < n; i++)
+    while (currentWeight < capacity)
     {
         counter++;
-        if (currentWeight + weights[i] <= capacity)
+
+        int bestItem = -1;
+        double bestValuePerWeight = 0.0;
+
+        for (int i = 0; i < n; i++)
         {
-            currentWeight += weights[i];
-            totalValue += values[i];
+            counter++;
+            if (weights[i] > 0 && valuePerWeight[i] > bestValuePerWeight)
+            {
+                bestItem = i;
+                bestValuePerWeight = valuePerWeight[i];
+            }
         }
-        else
-        {
-            int remainingCapacity = capacity - currentWeight;
-            totalValue += valuePerWeight[i] * remainingCapacity;
+
+        if (bestItem == -1)
             break;
-        }
+
+        int addedWeight = min(weights[bestItem], capacity - currentWeight);
+        double addedValue = addedWeight * valuePerWeight[bestItem];
+
+        totalValue += addedValue;
+        currentWeight += addedWeight;
+        weights[bestItem] -= addedWeight;
     }
 
-    cout << "\nMaximum value obtained: " << totalValue << endl;
+    std::cout << "Maximum value obtained: " << totalValue << std::endl;
 }
 
 int main()
