@@ -47,7 +47,7 @@ void fractionalKnapsack(int n, int capacity, int weights[], int values[])
         weights[bestItem] -= addedWeight;
     }
 
-    std::cout << "Maximum value obtained: " << totalValue << std::endl;
+    cout << "Maximum value obtained: " << totalValue << endl;
 }
 
 int main()

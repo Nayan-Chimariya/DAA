@@ -41,7 +41,7 @@ void randomizedQuickSort(int arr[], int low, int high)
 
 int main()
 {
-    srand(static_cast<unsigned int>(time(nullptr)));
+    srand(time(nullptr));
 
     int A[20], num, i;
 
